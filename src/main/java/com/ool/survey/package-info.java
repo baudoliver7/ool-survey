@@ -21,22 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.ool.survey;
 
 /**
- * Class Entrance.
+ * Main package.
  *
  * @since 0.1
- * @checkstyle HideUtilityClassConstructorCheck (100 lines)
  */
-@SuppressWarnings({"PMD.SystemPrintln", "PMD.UseUtilityClass"})
-public final class Main {
-
-    /**
-     * Entrance.
-     * @param args Arguments
-     */
-    public static void main(final String... args) {
-        System.out.println("Hello world");
-    }
-}
+package com.ool.survey;
