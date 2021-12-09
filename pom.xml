@@ -88,6 +88,32 @@ SOFTWARE.
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <output>file</output>
+          <outputDirectory>${project.build.directory}/site/jacoco</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>jacoco-check</id>
+          </execution>
+          <execution>
+            <id>jacoco-site</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -98,12 +124,10 @@ SOFTWARE.
           <plugin>
             <groupId>com.qulice</groupId>
             <artifactId>qulice-maven-plugin</artifactId>
+            <version>0.19.4</version>
             <configuration>
-              <license>file:${basedir}/LICENSE.txt</license>
               <excludes>
-                <exclude>checkstyle:/src/main/resources/.*</exclude>
-                <exclude>duplicatefinder:.*</exclude>
-                <exclude>dependencies:.*</exclude>
+                <exclude>xml:.*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -130,6 +154,20 @@ SOFTWARE.
             <configuration>
               <mainClass>com.ool.survey.Main</mainClass>
               <cleanupDaemonThreads>false</cleanupDaemonThreads>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>sonatype</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <configuration>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
             </configuration>
           </plugin>
         </plugins>
