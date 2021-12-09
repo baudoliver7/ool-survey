@@ -68,6 +68,23 @@ SOFTWARE.
     <developerConnection>scm:git:git://github.com:baudoliver7/ool-survey.git</developerConnection>
     <url>http://github.com/baudoliver7/ool-survey/tree/master</url>
   </scm>
+  <dependencies>
+    <dependency>
+      <groupId>com.jcabi</groupId>
+      <artifactId>jcabi-http</artifactId>
+      <version>1.17.7</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>2.2</version>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
@@ -128,6 +145,8 @@ SOFTWARE.
             <configuration>
               <excludes>
                 <exclude>xml:.*</exclude>
+                <exclude>duplicatefinder:.*</exclude>
+                <exclude>dependencies:.*</exclude>
               </excludes>
             </configuration>
           </plugin>

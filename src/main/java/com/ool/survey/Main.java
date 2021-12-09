@@ -23,20 +23,42 @@
  */
 package com.ool.survey;
 
+import com.jcabi.http.Request;
+import com.jcabi.http.request.JdkRequest;
+import java.io.IOException;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+
 /**
  * Class Entrance.
  *
  * @since 0.1
+ * @todo #1:30min Extract languages from loaded wiki page.
+ *  We have loaded the entire page of wiki. Now, we want to extract
+ *  all languages present in its content.
  * @checkstyle HideUtilityClassConstructorCheck (100 lines)
  */
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.UseUtilityClass"})
 public final class Main {
 
     /**
+     * Wikipedia page link.
+     */
+    private static final String WIKI_PAGE =
+        "https://en.wikipedia.org/wiki/List_of_programming_languages";
+
+    /**
      * Entrance.
      * @param args Arguments
+     * @throws IOException If fails to fetch
      */
-    public static void main(final String... args) {
-        System.out.println("Hello world");
+    public static void main(final String... args) throws IOException {
+        final String html = new JdkRequest(Main.WIKI_PAGE)
+            .uri().back()
+            .method(Request.GET)
+            .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
+            .fetch()
+            .body();
+        System.out.println(html);
     }
 }
