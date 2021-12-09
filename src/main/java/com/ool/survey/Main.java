@@ -48,7 +48,7 @@ public final class Main {
         "https://en.wikipedia.org/wiki/List_of_programming_languages";
 
     /**
-     * Xpath query for retrieve languages in Wiki page.
+     * Xpath query for retrieving languages in Wiki page.
      */
     private static final String QUERY_WIKI_PAGE =
         "//div[@id='mw-content-text']/div/div/ul/li/a/text()";
