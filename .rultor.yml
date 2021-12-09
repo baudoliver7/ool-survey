@@ -1,0 +1,29 @@
+assets:
+  settings.xml: baudoliver7/home#assets/settings.xml
+  public.key: baudoliver7/home#assets/public.key
+  private.key: baudoliver7/home#assets/private.key
+architect:
+  - baudoliver7
+env:
+  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g
+  JAVA_OPTS: -XX:MaxPermSize=256m -Xmx1g
+install: |
+  sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+  sudo gem install pdd
+  sudo gem install xcop
+  pdd --file=/dev/null
+merge:
+  fast-forward: only
+  rebase: true
+  script: |
+    mvn clean install -Pqulice --errors -Dstyle.color=never
+release:
+    sensitive:
+     - settings.xml
+    script: |-
+     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
+     gpg --import ../public.key
+     gpg --allow-secret-key-import --import --no-tty --batch ../private.key 
+     mvn versions:set "-DnewVersion=${tag}"
+     git commit -am "${tag}"
+     mvn clean deploy -Psonatype,minlessika --errors --settings ../settings.xml -Dstyle.color=never
