@@ -26,12 +26,12 @@ You can run it by these commands :
 
 ### From Maven
 ``` cmd
-mvn clean pre-integration-test -Pstart-app
+mvn clean integration-test -Pstart-app
 ```
 
 ### From JAR file
 ``` cmd
-java -Dfile.encoding=utf-8 -cp ool-survey-X.X.X-jar-with-dependencies.jar com.ool.survey.Main
+java -jar ool-survey-X.X.X-jar-with-dependencies.jar
 ``` 
 
 ## How to contribute
