@@ -31,7 +31,7 @@ mvn clean pre-integration-test -Pstart-app
 
 ### From JAR file
 ``` cmd
-java -Dfile.encoding=utf-8 -cp ool-survey-X.X.X.jar com.ool.survey.Main
+java -Dfile.encoding=utf-8 -cp ool-survey-X.X.X-jar-with-dependencies.jar com.ool.survey.Main
 ``` 
 
 ## How to contribute
