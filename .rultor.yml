@@ -4,21 +4,19 @@ assets:
   private.key: baudoliver7/home#assets/private.key
 architect:
   - baudoliver7
-env:
-  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g
-  JAVA_OPTS: -XX:MaxPermSize=256m -Xmx1g
 install: |
-  sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+  sudo apt install openjdk-8-jdk -y
+  sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+  sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
   sudo gem install pdd
   sudo gem install xcop
   pdd --file=/dev/null
 release:
-    sensitive:
-     - settings.xml
-    script: |-
-     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
-     gpg --import ../public.key
-     gpg --allow-secret-key-import --import --no-tty --batch ../private.key 
-     mvn versions:set "-DnewVersion=${tag}"
-     git commit -am "${tag}"
-     mvn clean deploy -Psonatype,baudoliver7 --errors --settings ../settings.xml -Dstyle.color=never
+  script: |-
+    [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
+    gpg --import /home/r/public.key
+    gpg --allow-secret-key-import --import --batch --pinentry-mode=loopback /home/r/private.key
+    mvn versions:set "-DnewVersion=${tag}"
+    git commit -am "${tag}"
+    mvn clean install -Dinvoker.skip
+    mvn clean deploy -Psonatype,baudoliver7 --errors --settings /home/r/settings.xml -Dstyle.color=never
