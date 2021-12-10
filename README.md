@@ -30,8 +30,9 @@ mvn clean integration-test -Pstart-app
 ```
 
 ### From JAR file
+Load the latest `jar-with-dependencies.jar` file from [here](https://repo1.maven.org/maven2/com/baudoliver7/ool-survey/) and then:
 ``` cmd
-java -jar ool-survey-X.X.X-jar-with-dependencies.jar
+java -jar ool-survey-jar-with-dependencies.jar
 ``` 
 
 ## How to contribute
