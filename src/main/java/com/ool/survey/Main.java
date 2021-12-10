@@ -25,10 +25,16 @@ package com.ool.survey;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.request.JdkRequest;
+import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
@@ -59,15 +65,44 @@ public final class Main {
      * @throws IOException If fails to fetch
      */
     public static void main(final String... args) throws IOException {
+        Logger.info(Main.class, "------ Start-up of the Survey ------ ");
+        Logger.info(
+            Main.class, "Loading Wikipedia HTML page at link : %s",
+            Main.WIKI_PAGE
+        );
         final String html = new JdkRequest(Main.WIKI_PAGE)
             .uri().back()
             .method(Request.GET)
             .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
             .fetch()
             .body();
+        Logger.info(Main.class, "Extracting languages from Wiki page");
         final XML xml = new XMLDocument(html);
         final List<String> languages = xml.xpath(Main.QUERY_WIKI_PAGE);
-        System.out.println(languages);
-        System.out.println(languages.size());
+        Logger.info(
+            Main.class, "The number of languages extracted : %s",
+            languages.size()
+        );
+        Logger.info(Main.class, "Building csv file");
+        final List<String[]> lines = new LinkedList<>();
+        for (String lg : languages) {
+            final String[] line = new String[8];
+            line[0] = lg;
+            line[1] = "";
+            line[2] = "";
+            line[3] = "";
+            line[4] = "";
+            line[5] = "";
+            line[6] = "";
+            line[7] = "";
+            lines.add(line);
+        }
+        final File csv = new File("survey.csv");
+        try (PrintWriter pw = new PrintWriter(csv, "UTF-8")) {
+            lines.stream()
+                .map(line -> Stream.of(line).collect(Collectors.joining(",")))
+                .forEach(pw::println);
+        }
+        Logger.info(Main.class, "------ End of the Survey ------ ");
     }
 }
