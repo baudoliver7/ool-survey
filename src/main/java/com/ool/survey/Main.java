@@ -42,6 +42,17 @@ import javax.ws.rs.core.MediaType;
  * Class Entrance.
  *
  * @since 0.1
+ * @todo #7:30min Refactor main class.
+ *  We focused on extracting languages from Wiki page and generate the csv file
+ *  for the survey. Now we want to refactor {@link Main}.
+ * @todo #7:30min Fill in the others columns of survey csv.
+ *  We have generated csv file for the survey with only `Language` column
+ *  filled. We want now fill in the other columns.
+ * @todo #7:30min Select additional languages from Google and Tiobe.
+ *  We have extracted languages from Wiki page. However, it didn't look exhaustive
+ *  enough. For example, it didn't include either HTML or Visual Basic for
+ *  Applications (VBA), to name a few. So, we want to explore other sources
+ *  like Google and Tiobe.
  * @checkstyle HideUtilityClassConstructorCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  */
