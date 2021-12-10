@@ -25,10 +25,16 @@ package com.ool.survey;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.request.JdkRequest;
+import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
@@ -36,7 +42,19 @@ import javax.ws.rs.core.MediaType;
  * Class Entrance.
  *
  * @since 0.1
- * @checkstyle HideUtilityClassConstructorCheck (100 lines)
+ * @todo #7:30min Refactor main class.
+ *  We focused on extracting languages from Wiki page and generate the csv file
+ *  for the survey. Now we want to refactor {@link Main}.
+ * @todo #7:30min Fill in the others columns of survey csv.
+ *  We have generated csv file for the survey with only `Language` column
+ *  filled. We want now fill in the other columns.
+ * @todo #7:30min Select additional languages from Google and Tiobe.
+ *  We have extracted languages from Wiki page. However, it didn't look exhaustive
+ *  enough. For example, it didn't include either HTML or Visual Basic for
+ *  Applications (VBA), to name a few. So, we want to explore other sources
+ *  like Google and Tiobe.
+ * @checkstyle HideUtilityClassConstructorCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.UseUtilityClass"})
 public final class Main {
@@ -57,17 +75,47 @@ public final class Main {
      * Entrance.
      * @param args Arguments
      * @throws IOException If fails to fetch
+     * @checkstyle ExecutableStatementCountCheck (500 lines)
      */
     public static void main(final String... args) throws IOException {
+        Logger.info(Main.class, "------ Start-up of the Survey ------ ");
+        Logger.info(
+            Main.class, "Loading Wikipedia HTML page at link : %s",
+            Main.WIKI_PAGE
+        );
         final String html = new JdkRequest(Main.WIKI_PAGE)
             .uri().back()
             .method(Request.GET)
             .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
             .fetch()
             .body();
+        Logger.info(Main.class, "Extracting languages from Wiki page");
         final XML xml = new XMLDocument(html);
         final List<String> languages = xml.xpath(Main.QUERY_WIKI_PAGE);
-        System.out.println(languages);
-        System.out.println(languages.size());
+        Logger.info(
+            Main.class, "The number of languages extracted : %s",
+            languages.size()
+        );
+        Logger.info(Main.class, "Building csv file");
+        final List<String[]> lines = new LinkedList<>();
+        for (final String lang : languages) {
+            final String[] line = new String[8];
+            line[0] = lang;
+            line[1] = "";
+            line[2] = "";
+            line[3] = "";
+            line[4] = "";
+            line[5] = "";
+            line[6] = "";
+            line[7] = "";
+            lines.add(line);
+        }
+        final File csv = new File("survey.csv");
+        try (PrintWriter pw = new PrintWriter(csv, "UTF-8")) {
+            lines.stream()
+                .map(line -> Stream.of(line).collect(Collectors.joining(",")))
+                .forEach(pw::println);
+        }
+        Logger.info(Main.class, "------ End of the Survey ------ ");
     }
 }
