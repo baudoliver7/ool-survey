@@ -42,7 +42,8 @@ import javax.ws.rs.core.MediaType;
  * Class Entrance.
  *
  * @since 0.1
- * @checkstyle HideUtilityClassConstructorCheck (100 lines)
+ * @checkstyle HideUtilityClassConstructorCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.UseUtilityClass"})
 public final class Main {
@@ -63,6 +64,7 @@ public final class Main {
      * Entrance.
      * @param args Arguments
      * @throws IOException If fails to fetch
+     * @checkstyle ExecutableStatementCountCheck (500 lines)
      */
     public static void main(final String... args) throws IOException {
         Logger.info(Main.class, "------ Start-up of the Survey ------ ");
@@ -85,9 +87,9 @@ public final class Main {
         );
         Logger.info(Main.class, "Building csv file");
         final List<String[]> lines = new LinkedList<>();
-        for (String lg : languages) {
+        for (final String lang : languages) {
             final String[] line = new String[8];
-            line[0] = lg;
+            line[0] = lang;
             line[1] = "";
             line[2] = "";
             line[3] = "";
