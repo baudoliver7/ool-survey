@@ -12,11 +12,6 @@ install: |
   sudo gem install pdd
   sudo gem install xcop
   pdd --file=/dev/null
-merge:
-  fast-forward: only
-  rebase: true
-  script: |
-    mvn clean install -Pqulice --errors -Dstyle.color=never
 release:
     sensitive:
      - settings.xml
@@ -26,4 +21,4 @@ release:
      gpg --allow-secret-key-import --import --no-tty --batch ../private.key 
      mvn versions:set "-DnewVersion=${tag}"
      git commit -am "${tag}"
-     mvn clean deploy -Psonatype,minlessika --errors --settings ../settings.xml -Dstyle.color=never
+     mvn clean deploy -Psonatype,baudoliver7 --errors --settings ../settings.xml -Dstyle.color=never
